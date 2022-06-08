@@ -68,6 +68,23 @@ class ChecklistViewController: UITableViewController {
         items.append(item3)
         items.append(item4)
         items.append(item5)
+        
+        // Setting for navigation
+        navigationController?.navigationBar.prefersLargeTitles = true
+        // End setting
+    }
+    
+    @IBAction func addItem() {
+        let newRowIndex = items.count
+        
+        let item = CheckListItem()
+        item.text = "I am a new row"
+        items.append(item)
+        
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        
     }
 }
 
@@ -111,6 +128,17 @@ extension ChecklistViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    // TODO: - Swipe delete function -
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        // 1
+        items.remove(at: indexPath.row)
+        
+        // 2
+        let indexPaths = [indexPath]
+        tableView.deleteRows(at: indexPaths, with: .automatic)
+    }
+    // END TODO
     
     func configureCheckmark(
         for cell: UITableViewCell,
